@@ -16,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".QRActivity" />
+        <activity android:name=".ParkedActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".FAQActivity"></activity>
     </application>
 
 </manifest>

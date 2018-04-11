@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">SmartParking</string>
+    <string name="points">Points</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_faq">FAQ</string>
+    <string name="menu_settings">Settings</string>
+    <string name="last_visited_label">Last Visited</string>
+    <string name="free_slots_label">Free Slots</string>
+    <string name="last_visited_date_dummy">Monday,28th Feb</string>
+    <string name="slots_count_dummy">2 Slots</string>
+    <string name="points_count_dummy">100</string>
+    <string name="smart_parking_label">Smart Parking</string>
+    <string name="hint_light_bulb_resource">hint light bulb resource</string>
 </resources>
