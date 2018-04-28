@@ -2,13 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.smartparking.amrbadr12.smartparking">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
+        android:theme="@style/SettingsTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,9 +21,15 @@
         </activity>
         <activity android:name=".ProfileActivity" />
         <activity android:name=".QRActivity" />
-        <activity android:name=".ParkedActivity" />
+        <activity
+            android:name=".ParkedActivity"
+            android:launchMode="singleTop" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".FAQActivity"></activity>
+
+        <service
+            android:name="com.smartparking.amrbadr12.smartparking.TimerBroadcastService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:entries="@array/languages"
+        android:entryValues="@array/languages"
+        android:key="pref_languages"
+        android:summary="Select from two languages"
+        android:title="Language" />
+    <ListPreference
+        android:entries="@array/colors"
+        android:entryValues="@array/colors"
+        android:key="pref_colors"
+        android:summary="Yellow or green"
+        android:title="Color" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_notifications"
+        android:summaryOff="Park notifications are off"
+        android:summaryOn="Park notifications are on"
+        android:title="Notifications" />
+
+
+</PreferenceScreen>

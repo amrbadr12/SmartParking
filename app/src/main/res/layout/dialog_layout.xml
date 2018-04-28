@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="152dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="24dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/hours_label"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/decrease_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:text="@string/minus_sign"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.Button"
+        android:textColor="@color/colorWhite"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/hours_count_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:text="0"
+        android:textColor="@color/colorWhite"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/increase_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:text="@string/plus_sign"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.Button"
+        android:textColor="@color/colorWhite"
+        android:textSize="24sp" />
+
+</LinearLayout>

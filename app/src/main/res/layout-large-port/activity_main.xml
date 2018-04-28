@@ -93,6 +93,17 @@
                         android:background="@drawable/circle_drawable" />
 
                     <TextView
+                        android:id="@+id/hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/imageView"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="16dp"
+                        android:text="Hint: Click on the circle."
+                        android:textSize="16sp"
+                        android:visibility="invisible" />
+
+                    <TextView
                         android:id="@+id/points_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -203,6 +214,7 @@
             android:src="@drawable/car_connected"
             app:backgroundTint="@color/colorPrimary"
             app:fabSize="normal" />
+
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
@@ -211,7 +223,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/colorOffBlack"
-        app:headerLayout="@layout/navh_header_layout"
+        app:headerLayout="@layout/nav_header_layout"
         app:menu="@menu/nav_menu">
 
     </android.support.design.widget.NavigationView>

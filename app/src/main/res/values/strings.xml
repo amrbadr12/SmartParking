@@ -12,4 +12,34 @@
     <string name="points_count_dummy">100</string>
     <string name="smart_parking_label">Smart Parking</string>
     <string name="hint_light_bulb_resource">hint light bulb resource</string>
+    <string name="plus_sign">+</string>
+    <string name="minus_sign">-</string>
+    <string name="hours_label">Hours:</string>
+    <string name="scan_qr_instructions">Click on the picture to start scanning.</string>
+    <string name="redeem_points">Redeem Points</string>
+    <string name="charge_wallet">Charge Wallet</string>
+    <string name="times_parked">Times Parked</string>
+    <string name="last_visit_date">Last visit date</string>
+    <string name="points_count">points count</string>
+    <string name="amount">Amount:</string>
+    <string name="hours_left">Hours left:</string>
+    <string name="hint_text">Hint: A notification will be sent.</string>
+    <string name="faq_text">Q- What happens when the countdown finishes?\n
+        A-notification will be sent.\n \n
+        Q-How can i redeem points and charge my wallet for payment? \n
+        A-Visit the profile page and click on the buttons accordingly.\n \n
+        Q-Can I lookup information about my last parking visit? \n
+        A-Yes you can through the profile page.\n \n
+        Q-How does the parking process works? \n
+        A-You\'ll be asked to scan a QR code through which your phone and parking place would be verified.\n \n
+        Q-Who developed this app?\n
+        A-Amr Badr from Mansoura University.</string>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Arabic</item>
+    </string-array>
+    <string-array name="colors">
+        <item>Yellow</item>
+        <item>Green</item>
+    </string-array>
 </resources>

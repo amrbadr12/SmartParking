@@ -1,10 +1,15 @@
 <resources>
 
     <!-- Base application theme. -->
+
+    <style name="SettingsTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="myTheme" parent="@android:style/Theme.Holo.Light">

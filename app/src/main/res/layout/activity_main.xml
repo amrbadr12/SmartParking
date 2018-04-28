@@ -79,6 +79,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textColor="@color/colorWhite" />
 
+
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="200dp"
@@ -87,6 +88,17 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/circle_drawable" />
+
+                <TextView
+                    android:id="@+id/hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageView"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="4dp"
+                    android:text="Hint: A notification will be sent."
+                    android:textSize="12sp"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/points_count"
@@ -202,7 +214,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/navh_header_layout"
+        app:headerLayout="@layout/nav_header_layout"
         app:menu="@menu/nav_menu">
 
     </android.support.design.widget.NavigationView>
