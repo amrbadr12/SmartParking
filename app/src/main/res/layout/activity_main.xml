@@ -64,7 +64,6 @@
                     android:layout_marginTop="8dp"
                     android:drawableLeft="@drawable/ic_account_circle"
                     android:drawableStart="@drawable/ic_account_circle"
-                    android:text="Amr Badr"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/colorWhite" />
 
@@ -104,10 +103,8 @@
                     android:id="@+id/points_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/imageView"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="75dp"
-                    android:text="@string/points_count_dummy"
+                    android:layout_centerVertical="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/colorWhite"
                     android:textSize="24sp" />
@@ -149,7 +146,6 @@
                     android:layout_below="@id/last_visited_label"
                     android:layout_marginLeft="4dp"
                     android:layout_marginStart="4dp"
-                    android:text="@string/last_visited_date_dummy"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textSize="12sp" />
 
@@ -184,7 +180,7 @@
                     android:layout_alignLeft="@+id/free_slots_label"
                     android:layout_alignStart="@+id/free_slots_label"
                     android:layout_below="@id/last_visited_label"
-                    android:text="@string/slots_count_dummy"
+
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -213,7 +209,11 @@
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_gravity="start"
+        android:layout_marginEnd="51dp"
+        android:layout_marginRight="51dp"
         app:headerLayout="@layout/nav_header_layout"
         app:menu="@menu/nav_menu">
 

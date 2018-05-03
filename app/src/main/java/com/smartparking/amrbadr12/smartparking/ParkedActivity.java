@@ -27,6 +27,7 @@ public class ParkedActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     private FloatingActionButton unparkButton;
+    private boolean isServiceStarted;
 
     public static String convertSecondsToHMmSs(long millseconds) {
         return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millseconds),
@@ -43,11 +44,8 @@ public class ParkedActivity extends AppCompatActivity {
         Log.e("Parked Activity", "onCreate() is called");
         unparkButton = findViewById(R.id.floatingActionButton);
         startingCountDownTimerIntent = new Intent(this, TimerBroadcastService.class);
-        if (getIntent() != null) {
-            boolean resume_count = getIntent().getBooleanExtra("resume_count", false);
-            if (resume_count) {
-                //do nothing
-            } else {
+        isServiceStarted = mSharedPreferences.getBoolean("STARTED", false);
+        if (getIntent() != null && !isServiceStarted) {
                 int hours = getIntent().getIntExtra("hours", 0);
                 startingCountDownTimerIntent.putExtra("hours", hours);
                 if (hours > 0) {//countdown timer is working
@@ -56,7 +54,6 @@ public class ParkedActivity extends AppCompatActivity {
                     mEditor.putBoolean("STARTED", true);
                     mEditor.apply();
                 }
-            }
         }
         unparkButton = findViewById(R.id.floatingActionButton);
         ProgressBar progressBar = findViewById(R.id.progressbar);
@@ -80,13 +77,14 @@ public class ParkedActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        hoursTextView.setText("");
         countdownTimerRecieverBroadcast = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 remainingPeriod = intent.getLongExtra("countdown", 0);
                 String hoursText = convertSecondsToHMmSs(remainingPeriod);
                 hoursTextView.setText(hoursText);
-                Log.i("hours", "started");
             }
         };
 
@@ -97,13 +95,23 @@ public class ParkedActivity extends AppCompatActivity {
         super.onResume();
         //this method tells the system to listen to the service broadcast through the action COUNTDOWN_BR
         //and sends its broadcast to those who are interested in such intent.
-        registerReceiver(countdownTimerRecieverBroadcast, new IntentFilter(TimerBroadcastService.COUNTDOWN_BR));
+        if (countdownTimerRecieverBroadcast != null)
+            registerReceiver(countdownTimerRecieverBroadcast, new IntentFilter(TimerBroadcastService.COUNTDOWN_BR));
     }
+
 
     @Override
     protected void onPause() {
-        unregisterReceiver(countdownTimerRecieverBroadcast);
+        hoursTextView.setText("");
         super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(countdownTimerRecieverBroadcast);
+        hoursTextView.setText("");
+        super.onStop();
+
     }
 
     @Override
@@ -114,20 +122,15 @@ public class ParkedActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        countdownTimerRecieverBroadcast = null;
         super.onDestroy();
-    }
-
-    private void backToHome() {
-        Intent intent = new Intent(ParkedActivity.this, MainActivity.class);
-        intent.putExtra("counting", true);
-        startActivity(intent);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                //backToHome();
+                onBackPressed();
                 break;
             }
         }
@@ -136,7 +139,6 @@ public class ParkedActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//     backToHome();
         super.onBackPressed();
     }
 

@@ -23,24 +23,50 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class MainActivity extends AppCompatActivity {
+    public static final String SAVED_FIREBASE_ID = "FIREBASE_USERID";
     private static final String TAG = "MainActivity";
     private DrawerLayout mDrawerLayout;
     private SharedPreferences.Editor edit;
     private boolean secondTime;
     private ImageView circleView;
     private TextView hintText;
+    private TextView usernameTextView;
+    private TextView pointsCountTextView;
+    private TextView lastVisitedDateTextView;
+    private TextView freeSlotsTextView;
     private FloatingActionButton parkButton;
+    private String uniqueID;
     private SharedPreferences mSharedPreferences;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mUsersDatabaseReference;
+    private DatabaseReference mSpecificUserDatabaseReference;
+    private ValueEventListener mValueEventListener;
+    private String username;
+    private String firebaseUniqueKey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
+        usernameTextView = findViewById(R.id.username);
+        pointsCountTextView = findViewById(R.id.points_count);
+        lastVisitedDateTextView = findViewById(R.id.last_visited_date);
+        freeSlotsTextView = findViewById(R.id.free_slots_count);
         TextView pointsCount = findViewById(R.id.points_count);
         hintText = findViewById(R.id.hint);
         Toolbar primaryToolbar = findViewById(R.id.primary_toolbar);
         Toolbar cardviewToolbar = findViewById(R.id.card_view_toolbar);
         circleView = findViewById(R.id.imageView);
+        username = "Test";
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         edit = mSharedPreferences.edit();
         secondTime = mSharedPreferences.getBoolean("STARTED", false);
@@ -85,6 +111,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //the service is now running and the user clicked the back button
+        String tempID = mSharedPreferences.getString(SAVED_FIREBASE_ID, "");
+        if (!tempID.equals("")) {
+            Log.i(TAG, "user key saved in firebase");
+            if (mSpecificUserDatabaseReference == null) {
+                mSpecificUserDatabaseReference = mUsersDatabaseReference.child(tempID);
+            }
+        }
 
     }
 
@@ -95,6 +128,12 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 if (mDrawerLayout != null)
                     mDrawerLayout.openDrawer(GravityCompat.START);
+                //initiliaze it for the first time
+//                UserData user = new UserData(username);
+//                firebaseUniqueKey = mUsersDatabaseReference.push().getKey();
+//                mUsersDatabaseReference.child(firebaseUniqueKey).setValue(user);
+//                edit.putString(SAVED_FIREBASE_ID, firebaseUniqueKey);
+//                edit.apply();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -115,9 +154,9 @@ public class MainActivity extends AppCompatActivity {
         increaseHours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int hours = Integer.parseInt(hoursText.getText().toString());
+                int hours = Integer.parseInt(hoursText.getText().toString()); // 0
                 if (hours < 24) {
-                    hours++;
+                    hours++; //1
                     hoursText.setText(hours + "");
                 }
             }
@@ -125,9 +164,9 @@ public class MainActivity extends AppCompatActivity {
         decreaseHours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int hours = Integer.parseInt(hoursText.getText().toString());
+                int hours = Integer.parseInt(hoursText.getText().toString()); //1
                 if (hours > 0) {
-                    hours--;
+                    hours--;//0
                     hoursText.setText(hours + "");
                 }
 
@@ -156,16 +195,11 @@ public class MainActivity extends AppCompatActivity {
         }).create().show();
     }
 
-    /*
-    Main Activity<<QR Activity<< Parked Activity
-    Main Activity<< Parked Activiry (Service is running in Parked Activity)
-    if back button is pressed you get the same instance of Main activity but with different prefrences
-    Main Activity<< Parked Activity<< Parked Activity
-     */
 
     @Override
     protected void onResume() {
         super.onResume();
+        attachDatabaseReadListener();
         secondTime = mSharedPreferences.getBoolean("STARTED", false);
         if (secondTime) {
             Log.i("Main Activity", "Second Time");
@@ -188,6 +222,12 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Main Activity", "First Time");
             hintText.setVisibility(View.INVISIBLE);
             circleView.setBackgroundResource(R.drawable.circle_drawable);
+            circleView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //do nothing
+                }
+            });
             parkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -195,5 +235,43 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void attachDatabaseReadListener() {
+        mValueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int points = dataSnapshot.child("points").getValue(Integer.class);
+                Log.i(TAG, "points+" + points);
+                pointsCountTextView.setText(Integer.toString(points));
+                String userName = dataSnapshot.child("userName").getValue(String.class);
+                usernameTextView.setText(userName);
+                String lastParkDate = dataSnapshot.child("lastParkDate").getValue(String.class);
+                if (lastParkDate.equals("")) {
+                    lastVisitedDateTextView.setText("First time");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        if (mSpecificUserDatabaseReference != null) {
+            mSpecificUserDatabaseReference.addValueEventListener(mValueEventListener);
+        }
+    }
+
+    private void detachDatabaseReadListener() {
+        if (mValueEventListener != null && mSpecificUserDatabaseReference != null) {
+            mSpecificUserDatabaseReference.removeEventListener(mValueEventListener);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        detachDatabaseReadListener();
     }
 }

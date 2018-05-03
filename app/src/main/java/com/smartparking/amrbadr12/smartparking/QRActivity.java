@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 public class QRActivity extends AppCompatActivity {
     private FloatingActionButton parkButton;
+    private Intent navToThis;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +22,7 @@ public class QRActivity extends AppCompatActivity {
         TextView hoursTextView;
         String hoursText;
         Toolbar primaryToolbar;
+        navToThis = new Intent(QRActivity.this, MainActivity.class);
         hoursTextView = findViewById(R.id.confirmed_hours);
         primaryToolbar = findViewById(R.id.primary_toolbar);
         parkButton = findViewById(R.id.qr_park_fab);
@@ -45,7 +47,7 @@ public class QRActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                onBackPressed();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -76,6 +78,7 @@ public class QRActivity extends AppCompatActivity {
                 navigateToParkedActivity.putExtra("hours", hours);
                 startActivity(navigateToParkedActivity);
                 finish();
+
             }
         });
     }

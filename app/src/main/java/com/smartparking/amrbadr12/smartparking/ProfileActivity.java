@@ -1,7 +1,6 @@
 package com.smartparking.amrbadr12.smartparking;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -63,7 +62,7 @@ public class ProfileActivity extends AppCompatActivity implements StatsFragment.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                onBackPressed();
                 break;
         }
         return super.onOptionsItemSelected(item);

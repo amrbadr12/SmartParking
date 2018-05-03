@@ -74,9 +74,8 @@
                         android:id="@+id/points_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/username"
+                        android:layout_below="@+id/username"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="32dp"
                         android:text="@string/points"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:textColor="@color/colorWhite"
@@ -86,9 +85,9 @@
                         android:id="@+id/imageView"
                         android:layout_width="250dp"
                         android:layout_height="250dp"
-                        android:layout_below="@id/points_text"
+                        android:layout_below="@+id/points_text"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="8dp"
                         android:background="@drawable/circle_drawable" />
 
                     <TextView
@@ -97,18 +96,18 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/imageView"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         android:text="Hint: Click on the circle."
-                        android:textSize="16sp"
+                        android:textSize="12sp"
                         android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/points_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/imageView"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="86dp"
+                        android:layout_centerVertical="true"
+
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:textColor="@color/colorWhite"
                         android:textSize="40sp" />
@@ -120,7 +119,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:layout_marginBottom="132dp"
+                        android:layout_marginBottom="35dp"
                         android:layout_marginLeft="4dp"
                         android:layout_marginStart="4dp"
                         android:layout_marginTop="32dp"
@@ -130,7 +129,7 @@
 
                     <View
                         android:id="@+id/view"
-                        android:layout_width="64dp"
+                        android:layout_width="50dp"
                         android:layout_height="1dp"
                         android:layout_alignBottom="@id/last_visited_label"
                         android:layout_alignLeft="@id/last_visited_label"
@@ -149,7 +148,7 @@
                         android:layout_alignLeft="@+id/view"
                         android:layout_alignParentBottom="true"
                         android:layout_alignStart="@+id/view"
-                        android:layout_marginBottom="112dp"
+                        android:layout_marginBottom="20dp"
 
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textSize="16sp" />
@@ -158,36 +157,36 @@
                         android:id="@+id/free_slots_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
+                        android:layout_alignBottom="@+id/view"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:layout_marginBottom="132dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginRight="4dp"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginEnd="49dp"
+                        android:layout_marginRight="49dp"
                         android:text="@string/free_slots_label"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:textSize="16sp" />
 
                     <View
-                        android:layout_width="56dp"
+                        android:id="@+id/view2"
+                        android:layout_width="40dp"
                         android:layout_height="1dp"
-                        android:layout_alignBottom="@id/free_slots_label"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginRight="4dp"
+                        android:layout_alignLeft="@id/free_slots_label"
+                        android:layout_alignStart="@id/free_slots_label"
+                        android:layout_below="@id/free_slots_label"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginStart="4dp"
                         android:alpha="0.12"
                         android:background="@color/colorWhite" />
+
 
                     <TextView
                         android:id="@+id/free_slots_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/free_slots_label"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignStart="@+id/free_slots_label"
-                        android:layout_marginBottom="112dp"
+                        android:layout_alignBottom="@+id/last_visited_date"
+                        android:layout_alignLeft="@id/free_slots_label"
+
+                        android:layout_alignStart="@id/free_slots_label"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textSize="16sp" />
 

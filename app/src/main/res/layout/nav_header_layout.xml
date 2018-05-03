@@ -21,7 +21,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/hint_light_bulb_resource"
-        android:src="@drawable/ic_bulb_idea" />
+        android:src="@drawable/idea" />
 
     <TextView
         android:id="@+id/hint_text"
