@@ -23,14 +23,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
-    public static final String SAVED_FIREBASE_ID = "FIREBASE_USERID";
+    public static final int RC_SIGN_IN = 212;
     private static final String TAG = "MainActivity";
     private DrawerLayout mDrawerLayout;
     private SharedPreferences.Editor edit;
@@ -47,16 +53,23 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mUsersDatabaseReference;
     private DatabaseReference mSpecificUserDatabaseReference;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private FirebaseAuth mFirebaseAuth;
     private ValueEventListener mValueEventListener;
     private String username;
-    private String firebaseUniqueKey;
+    private String currentUID;
+    private int currentMoney;
+    private int timesParked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
+        if (mFirebaseDatabase == null) {
+            mFirebaseDatabase = FirebaseDatabase.getInstance();
+        }
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mUsersDatabaseReference = mFirebaseDatabase.getReference("users");
         usernameTextView = findViewById(R.id.username);
         pointsCountTextView = findViewById(R.id.points_count);
         lastVisitedDateTextView = findViewById(R.id.last_visited_date);
@@ -66,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar primaryToolbar = findViewById(R.id.primary_toolbar);
         Toolbar cardviewToolbar = findViewById(R.id.card_view_toolbar);
         circleView = findViewById(R.id.imageView);
-        username = "Test";
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         edit = mSharedPreferences.edit();
         secondTime = mSharedPreferences.getBoolean("STARTED", false);
@@ -103,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.menu_settings:
                         startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                         break;
+                    case R.id.menu_log_out:
+                        mDrawerLayout.closeDrawers();
+                        AuthUI.getInstance().signOut(MainActivity.this);
                     default:
                         break;
                 }
@@ -110,17 +125,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //the service is now running and the user clicked the back button
-        String tempID = mSharedPreferences.getString(SAVED_FIREBASE_ID, "");
-        if (!tempID.equals("")) {
-            Log.i(TAG, "user key saved in firebase");
-            if (mSpecificUserDatabaseReference == null) {
-                mSpecificUserDatabaseReference = mUsersDatabaseReference.child(tempID);
+
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                //the user just logged in
+                if (currentUser != null) {
+                    Log.i(TAG, "user is signed in");
+                    currentUID = currentUser.getUid();
+                    username = currentUser.getDisplayName();
+                    addNewUser();
+                    attachDatabaseReadListener();
+                }
+                //user is not logged in, show login screen
+                else {
+                    startFirebaseAuthUI();
+                    Log.i(TAG, "user is not signed in");
+                }
             }
-        }
+        };
 
     }
 
+    public boolean addNewUser() {
+        //adds new user to the database and checks if there's a duplicite
+        //user is added for the first time
+        if (mUsersDatabaseReference.child(currentUID) == null) {
+            UserData user = new UserData(username);
+            mUsersDatabaseReference.child(currentUID).setValue(user);
+            return true;
+        }
+        mSpecificUserDatabaseReference = mUsersDatabaseReference.child(currentUID);
+        Log.i(TAG, "user already exists");
+        return false;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -128,23 +167,11 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 if (mDrawerLayout != null)
                     mDrawerLayout.openDrawer(GravityCompat.START);
-                //initiliaze it for the first time
-//                UserData user = new UserData(username);
-//                firebaseUniqueKey = mUsersDatabaseReference.push().getKey();
-//                mUsersDatabaseReference.child(firebaseUniqueKey).setValue(user);
-//                edit.putString(SAVED_FIREBASE_ID, firebaseUniqueKey);
-//                edit.apply();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-
-        super.onBackPressed();
-
-    }
 
     public void showParkDialog() {
         View dialogLayout = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_layout, null);
@@ -186,6 +213,9 @@ public class MainActivity extends AppCompatActivity {
                 if (hours > 0) {
                     Intent startQrActivity = new Intent(MainActivity.this, QRActivity.class);
                     startQrActivity.putExtra("hours", hours);
+                    startQrActivity.putExtra("points", Integer.parseInt(pointsCountTextView.getText().toString()));
+                    startQrActivity.putExtra("money", currentMoney);
+                    startQrActivity.putExtra("timesParked", timesParked);
                     secondTime = true;
                     startActivity(startQrActivity);
                 } else {
@@ -199,7 +229,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        attachDatabaseReadListener();
+        //auth state listener for login changes
+        attachAuthStateListener();
         secondTime = mSharedPreferences.getBoolean("STARTED", false);
         if (secondTime) {
             Log.i("Main Activity", "Second Time");
@@ -237,10 +268,36 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void startFirebaseAuthUI() {
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build());
+        startActivityForResult(AuthUI.getInstance().
+                        createSignInIntentBuilder().setIsSmartLockEnabled(false).
+                        setAvailableProviders(providers).setTheme(R.style.AuthUITheme).build()
+                , RC_SIGN_IN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == RESULT_OK) {
+                Log.i(TAG, "user is signed in");
+            }
+            if (resultCode == RESULT_CANCELED) {
+                finish();
+            }
+        }
+    }
+
     private void attachDatabaseReadListener() {
         mValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                timesParked = dataSnapshot.child("timesParked").getValue(Integer.class);
+                Log.i(TAG, timesParked + "");
+                currentMoney = dataSnapshot.child("walletMoney").getValue(Integer.class);
                 int points = dataSnapshot.child("points").getValue(Integer.class);
                 Log.i(TAG, "points+" + points);
                 pointsCountTextView.setText(Integer.toString(points));
@@ -269,9 +326,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void attachAuthStateListener() {
+        mFirebaseAuth.addAuthStateListener(authStateListener);
+    }
+
+    private void detachAuthStateListener() {
+        mFirebaseAuth.removeAuthStateListener(authStateListener);
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
         detachDatabaseReadListener();
+        detachAuthStateListener();
     }
 }

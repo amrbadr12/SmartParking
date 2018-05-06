@@ -19,6 +19,10 @@ public class UserData {
         lastParkDate = "";
     }
 
+    public UserData() {
+
+    }
+
     public String getUserName() {
         return userName;
     }

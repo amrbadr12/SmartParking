@@ -1,6 +1,5 @@
 package com.smartparking.amrbadr12.smartparking;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,11 +7,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class StatsFragment extends android.support.v4.app.Fragment {
     private TextView lastVisitTextView;
     private TextView parkedCountTextView;
     private TextView pointsCountTextView;
-    private stats statsObject;
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseAuth mFirebaseAuth;
+    private DatabaseReference mUsersDatabaseReference;
+    private DatabaseReference mSpecificUserDatabaseReference;
+    private String currentUID;
+    private ValueEventListener valueEventListener;
 
     @Nullable
     @Override
@@ -30,27 +41,51 @@ public class StatsFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        lastVisitTextView.setText(statsObject.getLastVisitedDate());
-//        parkedCountTextView.setText(statsObject.getParkCount());
-//        pointsCountTextView.setText(statsObject.getPointsCount());
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        currentUID = mFirebaseAuth.getUid();
+        mUsersDatabaseReference = mFirebaseDatabase.getReference("users");
+        mSpecificUserDatabaseReference = mUsersDatabaseReference.child(currentUID);
+    }
+
+    public void attachDatabaseReadListener() {
+        valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String lastParkDate = dataSnapshot.child("lastParkDate").getValue(String.class);
+                int timesParked = dataSnapshot.child("timesParked").getValue(Integer.class);
+                int points = dataSnapshot.child("points").getValue(Integer.class);
+                lastVisitTextView.setText(lastParkDate);
+                if (lastParkDate.equals("")) {
+                    parkedCountTextView.setText("First time");
+                }
+                parkedCountTextView.setText(timesParked + "");
+                pointsCountTextView.setText(points + "");
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        mSpecificUserDatabaseReference.addValueEventListener(valueEventListener);
+    }
+
+    public void detachDatabaseReadListener() {
+        mSpecificUserDatabaseReference.removeEventListener(valueEventListener);
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof stats) {
-            statsObject = (stats) context;
-        } else {
-            throw new ClassCastException(context.toString()
-                    + " must implement stats interface in profile activity.");
-        }
+    public void onResume() {
+        super.onResume();
+        attachDatabaseReadListener();
     }
 
-    public interface stats {
-        int getParkCount();
-
-        String getLastVisitedDate();
-
-        int getPointsCount();
+    @Override
+    public void onStop() {
+        super.onStop();
+        detachDatabaseReadListener();
     }
+
 }

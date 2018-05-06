@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartParking</string>
+    <string name="app_name">Smart Parking</string>
     <string name="points">Points</string>
     <string name="menu_home">Home</string>
     <string name="menu_profile">Profile</string>
@@ -34,6 +34,7 @@
         A-You\'ll be asked to scan a QR code through which your phone and parking place would be verified.\n \n
         Q-Who developed this app?\n
         A-Amr Badr from Mansoura University.</string>
+    <string name="logout">Logout</string>
     <string-array name="languages">
         <item>English</item>
         <item>Arabic</item>

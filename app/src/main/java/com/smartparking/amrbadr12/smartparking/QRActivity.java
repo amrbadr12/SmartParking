@@ -12,9 +12,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class QRActivity extends AppCompatActivity {
     private FloatingActionButton parkButton;
-    private Intent navToThis;
+    private DatabaseReference mSpecificUserDatabaseReference;
+    private int currentPoints;
+    private int currentWallet;
+    private int timesParked;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +29,7 @@ public class QRActivity extends AppCompatActivity {
         TextView hoursTextView;
         String hoursText;
         Toolbar primaryToolbar;
-        navToThis = new Intent(QRActivity.this, MainActivity.class);
+        Intent navToThis = new Intent(QRActivity.this, MainActivity.class);
         hoursTextView = findViewById(R.id.confirmed_hours);
         primaryToolbar = findViewById(R.id.primary_toolbar);
         parkButton = findViewById(R.id.qr_park_fab);
@@ -34,12 +41,18 @@ public class QRActivity extends AppCompatActivity {
             supportActionBar.setHomeAsUpIndicator(R.drawable.ic_arrow);
         }
         Intent intent = getIntent();
-        final int hours = intent.getIntExtra("hours", 0);
+        int hours = intent.getIntExtra("hours", 0);
         hoursText = "Parking here for " + hours + " hours.";
         hoursTextView.setText(hoursText);
         setQRButtonListener(hours);
-
-
+        FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+        String currentUID = mFirebaseAuth.getUid();
+        DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference("users");
+        mSpecificUserDatabaseReference = mUsersDatabaseReference.child(currentUID);
+        currentPoints = intent.getIntExtra("points", 0);
+        currentWallet = intent.getIntExtra("money", 0);
+        timesParked = intent.getIntExtra("timesParked", 0);
     }
 
     //TODO add the QR library and do its validation
@@ -76,8 +89,27 @@ public class QRActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent navigateToParkedActivity = new Intent(QRActivity.this, ParkedActivity.class);
                 navigateToParkedActivity.putExtra("hours", hours);
-                startActivity(navigateToParkedActivity);
-                finish();
+                //get the points count and then increment a 20 to it each park
+                //each hours is 2$ worth of parking
+                if (currentWallet >= 2) {
+                    int enoughMoneyCheck = hours * 2;
+                    if (currentWallet >= enoughMoneyCheck) {
+                        int newPoints = currentPoints + 10;
+                        int newMoney = currentWallet - enoughMoneyCheck;
+                        int newTimesParked = timesParked + 1;
+                        //TODO: save the date into the database
+                        mSpecificUserDatabaseReference.child("points").setValue(newPoints);
+                        mSpecificUserDatabaseReference.child("walletMoney").setValue(newMoney);
+                        mSpecificUserDatabaseReference.child("timesParked").setValue(newTimesParked);
+                        startActivity(navigateToParkedActivity);
+                        finish();
+                    } else {
+                        Toast.makeText(QRActivity.this, "You don't have enough money. Choose less hours", Toast.LENGTH_SHORT).show();
+                        Log.i("QR Activity", currentWallet + "");
+                    }
+                } else {
+                    Toast.makeText(QRActivity.this, "You have no money. Charge first!", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -88,4 +120,5 @@ public class QRActivity extends AppCompatActivity {
         Log.e("QR Activity", "onDestroy() called");
         super.onDestroy();
     }
+
 }

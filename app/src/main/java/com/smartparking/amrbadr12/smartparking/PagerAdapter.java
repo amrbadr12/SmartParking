@@ -16,11 +16,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                WalletFragment walletFragment = new WalletFragment();
-                return walletFragment;
+                return new WalletFragment();
             case 1:
-                StatsFragment statsFragment = new StatsFragment();
-                return statsFragment;
+                return new StatsFragment();
             default:
                 return null;
         }

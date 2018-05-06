@@ -20,7 +20,17 @@
         android:layout_below="@id/wallet_image"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:text="37$"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/dollar_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/wallet_image"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/money_text"
+        android:layout_toRightOf="@+id/money_text"
+        android:text="$"
         android:textSize="24sp" />
 
     <LinearLayout

@@ -22,6 +22,7 @@
         android:layout_toEndOf="@+id/credit_card_image"
         android:layout_toRightOf="@+id/credit_card_image"
         android:hint="@string/amount"
+        android:inputType="number"
         android:textColor="@color/colorWhite"
         android:textSize="16sp" />
 

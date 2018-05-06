@@ -1,19 +1,13 @@
 package com.smartparking.amrbadr12.smartparking;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 
-public class ProfileActivity extends AppCompatActivity implements StatsFragment.stats, WalletFragment.walletListener {
+public class ProfileActivity extends AppCompatActivity {
     int amount;
 
     @Override
@@ -68,47 +62,5 @@ public class ProfileActivity extends AppCompatActivity implements StatsFragment.
         return super.onOptionsItemSelected(item);
     }
 
-    //TODO:implement the stats methods.
-    @Override
-    public int getParkCount() {
-        return 0;
-    }
 
-    @Override
-    public String getLastVisitedDate() {
-        return null;
-    }
-
-    @Override
-    public int getPointsCount() {
-        return 0;
-    }
-
-    @Override
-    public int chargeWallet() {
-        Log.e("Profile Activity", "charge wallet button is called");
-        final View dialogLayout = LayoutInflater.from(ProfileActivity.this).inflate(R.layout.charge_wallet_dialog_layout, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
-        AlertDialog alertDialog = builder.setTitle("Choose the amount").setView(dialogLayout).setPositiveButton("Charge", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                EditText amountText = dialogLayout.findViewById(R.id.amount_edit_text);
-                amount = Integer.parseInt(amountText.getText().toString());
-                //TODO:Add it to firebase and display it in the fragment.
-            }
-        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        }).create();
-        alertDialog.show();
-        return amount;
-    }
-
-    @Override
-    public int redeemPoints() {
-        //TODO:add some logic here to redeem the points
-        return 0;
-    }
 }

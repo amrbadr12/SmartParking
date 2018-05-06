@@ -9,4 +9,23 @@
     <color name="colorBackground">#f5f5f5</color>
     <color name="colorOffBlack">#212121</color>
     <color name="colorOffOffBlack">#424242</color>
+    <color name="material_green_600">#43A047</color>
+    <color name="material_green_500">#4CAF50</color>
+    <color name="material_green_700">#388E3C</color>
+    <color name="material_green_a200">#69F0AE</color>
+    <color name="material_lime_a800">#AFB42B</color>
+    <color name="material_lime_50">#F9FBE7</color>
+    <color name="material_purple_a700">#AA00FF</color>
+    <color name="material_purple_500">#9C27B0</color>
+    <color name="colorPeach">#fadf63</color>
+    <color name="colorDarkLiver">#534d41</color>
+    <color name="colorRed">#db2b39</color>
+    <color name="lightBlue">#a2aebb</color>
+    <color name="colorBlue">#2274a5</color>
+    <color name="yankeesBlue">#1c3144</color>
+    <color name="colorWhite2">#fbfffe</color>
+    <color name="colorJetBlack">#363537</color>
+    <color name="tealBlue">#33658a</color>
+    <color name="darkSlateGrey">#2f4858</color>
+
 </resources>

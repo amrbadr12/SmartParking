@@ -25,4 +25,16 @@
         <item name="android:textColor">@color/colorText</item>
     </style>
 
+    <!-- Firebase theme -->
+    <style name="AuthUITheme" parent="FirebaseUI">
+        <item name="colorPrimary">@color/tealBlue</item>
+        <item name="colorPrimaryDark">@color/darkSlateGrey</item>
+        <item name="colorAccent">@color/lightBlue</item>
+        <item name="colorControlNormal">@color/colorRed</item>
+        <item name="android:windowBackground">@color/colorJetBlack</item>
+        <item name="colorButtonNormal">@color/colorJetBlack</item>
+    </style>
+    material_green_600
+    material_green_700
+
 </resources>
