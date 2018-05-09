@@ -50,21 +50,33 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/hours_textview"
-                    android:layout_alignLeft="@+id/hours_textview"
-                    android:layout_alignStart="@+id/hours_textview"
-                    android:text="Hours left:"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/hours_left"
                     android:textSize="24sp" />
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignTop="@+id/textView"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_toLeftOf="@+id/textView"
+                    android:layout_toStartOf="@+id/textView"
+                    android:background="@drawable/clock"
+                    android:contentDescription="@string/clock_image" />
 
                 <ProgressBar
                     android:id="@+id/progressbar"
                     style="@style/Widget.AppCompat.ProgressBar"
                     android:layout_width="250dp"
                     android:layout_height="250dp"
+                    android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="144dp"
+                    android:layout_marginTop="181dp"
                     android:max="100"
                     android:progress="100" />
 
@@ -80,12 +92,24 @@
                     android:textSize="28sp" />
 
                 <TextView
+                    android:id="@+id/hint_notifications_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/progressbar"
                     android:layout_centerHorizontal="true"
-                    android:text="Hint: A notification will be sent."
+                    android:text="@string/hint_text"
                     android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignTop="@id/hint_notifications_label"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_toLeftOf="@id/hint_notifications_label"
+                    android:layout_toStartOf="@id/hint_notifications_label"
+                    android:background="@drawable/notification"
+                    android:contentDescription="@string/notifications_image" />
             </RelativeLayout>
 
 

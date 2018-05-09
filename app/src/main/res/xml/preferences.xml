@@ -2,23 +2,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-        android:entries="@array/languages"
-        android:entryValues="@array/languages"
-        android:key="pref_languages"
-        android:summary="Select from two languages"
-        android:title="Language" />
-    <ListPreference
         android:entries="@array/colors"
         android:entryValues="@array/colors"
         android:key="pref_colors"
-        android:summary="Yellow or green"
-        android:title="Color" />
+        android:summary="@string/yellow_or_blue"
+        android:title="@string/color_pref_label" />
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="pref_notifications"
-        android:summaryOff="Park notifications are off"
-        android:summaryOn="Park notifications are on"
-        android:title="Notifications" />
+        android:summaryOff="@string/off_pref_notifications"
+        android:summaryOn="@string/on_pref_notifications"
+        android:title="@string/notifications_pref_label" />
 
 
 </PreferenceScreen>

@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         pointsCountTextView = findViewById(R.id.points_count);
         lastVisitedDateTextView = findViewById(R.id.last_visited_date);
         freeSlotsTextView = findViewById(R.id.free_slots_count);
-        TextView pointsCount = findViewById(R.id.points_count);
         hintText = findViewById(R.id.hint);
         Toolbar primaryToolbar = findViewById(R.id.primary_toolbar);
         Toolbar cardviewToolbar = findViewById(R.id.card_view_toolbar);
@@ -199,14 +198,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        new AlertDialog.Builder(MainActivity.this).setView(dialogLayout).setMessage("How many hours would you like to park?")
+        new AlertDialog.Builder(MainActivity.this).setView(dialogLayout).setMessage(getResources().getString(R.string.dialog_display_message))
                 .setTitle("Park Duration").setCancelable(true).setIcon(R.drawable.ic_hours)
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
                     }
-                }).setPositiveButton("Park", new DialogInterface.OnClickListener() {
+                }).setPositiveButton(getResources().getString(R.string.park_dialog), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 int hours = Integer.parseInt(hoursText.getText().toString());
@@ -219,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                     secondTime = true;
                     startActivity(startQrActivity);
                 } else {
-                    Toast.makeText(MainActivity.this, "Hours can't be zero.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.hours_not_zero_label, Toast.LENGTH_SHORT).show();
                 }
             }
         }).create().show();
@@ -306,6 +305,8 @@ public class MainActivity extends AppCompatActivity {
                 String lastParkDate = dataSnapshot.child("lastParkDate").getValue(String.class);
                 if (lastParkDate.equals("")) {
                     lastVisitedDateTextView.setText("First time");
+                } else {
+                    lastVisitedDateTextView.setText(lastParkDate);
                 }
             }
 

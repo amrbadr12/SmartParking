@@ -79,7 +79,6 @@
                         android:layout_centerHorizontal="true"
                         android:text="@string/points"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/colorWhite"
                         android:textSize="16sp" />
 
                     <ImageView
@@ -98,7 +97,7 @@
                         android:layout_below="@+id/imageView"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
-                        android:text="Hint: Click on the circle."
+                        android:text="@string/hint_text"
                         android:textSize="12sp"
                         android:visibility="invisible" />
 
@@ -187,6 +186,9 @@
                         android:layout_alignBottom="@+id/last_visited_date"
                         android:layout_alignLeft="@id/free_slots_label"
                         android:layout_alignStart="@id/free_slots_label"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginStart="25dp"
+                        android:text="2"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textSize="10sp" />
 

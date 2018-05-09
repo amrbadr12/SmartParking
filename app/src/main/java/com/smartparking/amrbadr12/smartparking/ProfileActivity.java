@@ -24,10 +24,10 @@ public class ProfileActivity extends AppCompatActivity {
         }
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         TabLayout.Tab tabWallet = tabLayout.newTab();
-        tabWallet.setText("Wallet");
+        tabWallet.setText(getResources().getString(R.string.wallet_label));
         tabLayout.addTab(tabWallet);
         TabLayout.Tab tabStats = tabLayout.newTab();
-        tabStats.setText("Stats");
+        tabStats.setText(getResources().getString(R.string.stats_label));
         tabLayout.addTab(tabStats);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ViewPager viewPager = findViewById(R.id.view_pager);

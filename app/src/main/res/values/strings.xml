@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Smart Parking</string>
+    <string name="app_name" translatable="false">Smart Parking</string>
     <string name="points">Points</string>
     <string name="menu_home">Home</string>
     <string name="menu_profile">Profile</string>
@@ -7,13 +7,12 @@
     <string name="menu_settings">Settings</string>
     <string name="last_visited_label">Last Visited</string>
     <string name="free_slots_label">Free Slots</string>
-    <string name="last_visited_date_dummy">Monday,28th Feb</string>
-    <string name="slots_count_dummy">2 Slots</string>
-    <string name="points_count_dummy">100</string>
     <string name="smart_parking_label">Smart Parking</string>
-    <string name="hint_light_bulb_resource">hint light bulb resource</string>
-    <string name="plus_sign">+</string>
-    <string name="minus_sign">-</string>
+    <string name="wallet_label">Wallet</string>
+    <string name="stats_label">Stats</string>
+    <string name="hint_light_bulb_resource" translatable="false">hint light bulb resource</string>
+    <string name="plus_sign" translatable="false">+</string>
+    <string name="minus_sign" translatable="false">-</string>
     <string name="hours_label">Hours:</string>
     <string name="scan_qr_instructions">Click on the picture to start scanning.</string>
     <string name="redeem_points">Redeem Points</string>
@@ -32,15 +31,30 @@
         A-Yes you can through the profile page.\n \n
         Q-How does the parking process works? \n
         A-You\'ll be asked to scan a QR code through which your phone and parking place would be verified.\n \n
+        Q-Is there any languages besides english? \n
+        A-Yes there's arabic language support.\n \n
         Q-Who developed this app?\n
         A-Amr Badr from Mansoura University.</string>
     <string name="logout">Logout</string>
-    <string-array name="languages">
-        <item>English</item>
-        <item>Arabic</item>
-    </string-array>
+    <string name="color_pref_label">Color</string>
+    <string name="notifications_pref_label">Notifications</string>
+    <string name="last_visit_was_on_stats">Last visit was on:</string>
+    <string name="times_parked_stats">Times Parked:</string>
+    <string name="dialog_display_message">How many hours would you like to park?</string>
+    <string name="hours_not_zero_label">Hours can\'t be zero.</string>
+    <string name="cancel">Cancel</string>
+    <string name="park_dialog">Park</string>
+    <string name="scan_the_qr_code">Scan the QR code</string>
+    <string name="amount_wallet">Choose the amount</string>
+    <string name="charge">Charge</string>
+    <string name="yellow_or_blue">Yellow or blue</string>
+    <string name="off_pref_notifications">Park notifications are off</string>
+    <string name="on_pref_notifications">Park notifications are on</string>
+    <string name="clock_image">clock image</string>
+    <string name="notifications_image">notifications image</string>
+    <string name="your_car_is_now_connected">Your car is now connected!</string>
     <string-array name="colors">
         <item>Yellow</item>
-        <item>Green</item>
+        <item>Blue</item>
     </string-array>
 </resources>

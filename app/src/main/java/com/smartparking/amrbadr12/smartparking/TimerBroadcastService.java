@@ -43,7 +43,6 @@ public class TimerBroadcastService extends Service {
 
             @Override
             public void onFinish() {
-                //TODO: automatically unpark the car and send it to the realtime database
                 PendingIntent pendingIntent = PendingIntent.getActivity(TimerBroadcastService.this, 1, navToThis, 0);
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(TimerBroadcastService.this);
                 builder.setAutoCancel(true).setContentTitle("Park duration has finished")
